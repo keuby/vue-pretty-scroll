@@ -1,8 +1,14 @@
 import BScroll from "@better-scroll/core";
+import ScrollBar from "@better-scroll/scroll-bar";
+import MouseWheel from "@better-scroll/mouse-wheel";
+
 import { WindowResizeObserver } from "./observer";
 import { Unsubscribable } from "./types";
 import { Options } from "@better-scroll/core/src/Options";
 import { override } from "./tools";
+
+BScroll.use(ScrollBar);
+BScroll.use(MouseWheel);
 
 export class PrettyScroll {
     static defaultConfig = {};

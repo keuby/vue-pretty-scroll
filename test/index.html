@@ -34,10 +34,11 @@
                     invert: false,
                     easeTime: 300,
                 },
-                scrollbar: true,
+                scrollbar: {
+                    fade: false,
+                    interactive: true,
+                },
             });
-            BScroll.use(MouseWheel);
-            BScroll.use(ScrollBar);
 
             const app = new Vue({
                 el: "#app",

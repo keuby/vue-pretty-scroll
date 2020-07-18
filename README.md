@@ -1,6 +1,6 @@
 # Vue Pretty Scroll
 
-Vue 滚动条指令插件，基于 better-scroll。
+Vue 滚动条指令插件，基于 [better-scroll](https://better-scroll.github.io/docs/zh-CN/)。
 
 ## 概述
 
@@ -88,22 +88,10 @@ Vue.use(PrettyScroll, {
 
 better-scroll 不会显示滚动条，也不会监听滚轮事件，所以需要安装额外的插件来使用
 
-```bash
-yarn add @better-scroll/core@next
-yarn add @better-scroll/mouse-wheel@next
-yarn add @better-scroll/scroll-bar@next
-```
-
 注册插件时需要有额外的配置
 
 ```ts
 import Vue from "vue";
-import BScroll from "@better-scroll/core";
-import MouseWheel from "@better-scroll/mouse-wheel";
-import ScrollBar from "@better-scroll/scroll-bar";
-
-BScroll.use(ScrollBar);
-BScroll.use(MouseWheel);
 
 Vue.use(PrettyScroll, {
     mouseWheel: {
@@ -111,7 +99,10 @@ Vue.use(PrettyScroll, {
         invert: false,
         easeTime: 300,
     },
-    scrollbar: true,
+    scrollbar: {
+        fade: false,
+        interactive: true,
+    },
     ... // 其他配置项
 });
 ```

@@ -6,6 +6,8 @@
  */
 
 import BScroll from '@better-scroll/core';
+import ScrollBar from '@better-scroll/scroll-bar';
+import MouseWheel from '@better-scroll/mouse-wheel';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -163,6 +165,9 @@ function () {
 
   return WindowResizeObserver;
 }();
+
+BScroll.use(ScrollBar);
+BScroll.use(MouseWheel);
 
 var PrettyScroll =
 /** @class */
