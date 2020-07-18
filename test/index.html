@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <template id="app-template">
+            <div id="app">
+                <div class="wrapper" v-pretty-scroll="{scrollX: true}">
+                    <div class="container">
+                        <p v-for="i in count">
+                            测试测试测试测试测试测试测试测试
+                        </p>
+                    </div>
+                </div>
+                <button @click="count++">increase</button>
+            </div>
+        </template>
+
+        <script src="../node_modules/vue/dist/vue.min.js"></script>
+        <script src="../node_modules//@better-scroll/core/dist/core.min.js"></script>
+        <script src="../node_modules//@better-scroll/scroll-bar/dist/scroll-bar.min.js"></script>
+        <script src="../node_modules//@better-scroll/mouse-wheel/dist/mouse-wheel.min.js"></script>
+        <script src="../dist/pretty-scroll.js"></script>
+        <script>
+            Vue.use(PrettyScroll, {
+                mouseWheel: {
+                    speed: 20,
+                    invert: false,
+                    easeTime: 300,
+                },
+                scrollbar: true,
+            });
+            BScroll.use(MouseWheel);
+            BScroll.use(ScrollBar);
+
+            const app = new Vue({
+                el: "#app",
+                template: "#app-template",
+                data: {
+                    count: 10,
+                },
+            });
+        </script>
+    </body>
+</html>

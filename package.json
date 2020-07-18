@@ -1,0 +1,46 @@
+{
+    "name": "vue-pretty-scroll",
+    "version": "1.0.0",
+    "description": "vue scrollbar plugin",
+    "main": "dist/pretty-scroll.js",
+    "module": "dist/pretty-scroll.esm.js",
+    "typings": "dist/index.d.ts",
+    "scripts": {
+        "build": "yarn build:umd && yarn build:esm",
+        "build:umd": "format=umd rollup -c",
+        "build:esm": "format=esm rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/keuby/vue-pretty-scroll.git"
+    },
+    "keywords": [
+        "vue",
+        "scrollbar",
+        "plugin",
+        "scroll"
+    ],
+    "author": "Knight Chen",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/keuby/vue-pretty-scroll/issues"
+    },
+    "homepage": "https://github.com/keuby/vue-pretty-scroll#readme",
+    "devDependencies": {
+        "@babel/core": "^7.10.5",
+        "@babel/plugin-proposal-class-properties": "^7.10.4",
+        "@babel/preset-env": "^7.10.4",
+        "rollup": "^2.21.0",
+        "rollup-plugin-babel": "^4.4.0",
+        "rollup-plugin-banner": "^0.2.1",
+        "rollup-plugin-typescript2": "^0.27.1",
+        "rollup-plugin-uglify": "^6.0.4",
+        "typescript": "^3.9.7",
+        "vue": "^2.6.11"
+    },
+    "dependencies": {
+        "@better-scroll/core": "^2.0.0-beta.10",
+        "@better-scroll/mouse-wheel": "^2.0.0-beta.10",
+        "@better-scroll/scroll-bar": "^2.0.0-beta.10"
+    }
+}
