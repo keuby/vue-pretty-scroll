@@ -1,6 +1,6 @@
 /**
  * vue-pretty-scroll v1.0.0
- * release at 2020-7-18
+ * release at 2020-7-19
  * by Knight Chen
  * github https://github.com/keuby/vue-pretty-scroll#readme
  */
@@ -110,8 +110,6 @@ function override(target, source) {
   return target;
 }
 function debounce(callback, time) {
-  var _this = this;
-
   if (time === void 0) {
     time = 300;
   }
@@ -122,7 +120,7 @@ function debounce(callback, time) {
     lastestValue = value;
 
     if (timer != null) {
-      clearTimeout(_this.lastestTimer);
+      clearTimeout(timer);
       timer = null;
     }
 
@@ -242,10 +240,12 @@ function () {
       selector = this.selector;
     }
 
-    if (selector != null) {
-      return this.root.querySelector(selector);
-    } else {
+    if (selector == null) {
       return this.root;
+    } else if (selector === "parent") {
+      return this.root.parentElement;
+    } else {
+      return this.root.querySelector(selector);
     }
   };
 
@@ -268,6 +268,7 @@ function () {
 }();
 
 var PrettyScrollDirective = {
+  name: "pretty-scroll",
   inserted: function inserted(el, binding) {
     var _a = binding.value || {},
         selector = _a.selector,
@@ -300,17 +301,80 @@ var PrettyScrollDirective = {
   }
 };
 
+var needCopyProps = ["staticClass", "staticStyle", "class", "style", "attrs"];
+var PrettyScrollContainer = {
+  name: "PrettyScroll",
+  functional: true,
+  render: function render(createElement, context) {
+    var className = context.props.className;
+    var nodeData = buildVNodeData(context);
+
+    if (className) {
+      var style = nodeData.style || (nodeData.style = {});
+      style.position = "relative";
+      style.overflow = "hidden";
+      return createElement("div", nodeData, [createElement("div", {
+        staticClass: className
+      }, context.children)]);
+    } else {
+      nodeData.directives[0].value.selector = "parent";
+      return createElement("div", nodeData, context.children);
+    }
+  }
+};
+
+function buildVNodeData(context) {
+  var _a = context.props,
+      _b = _a.hasWrapper,
+      props = __rest(_a, ["hasWrapper"]);
+
+  for (var prop in props) {
+    if (props[prop] === "") {
+      props[prop] = true;
+    }
+  }
+
+  var data = {};
+
+  for (var _i = 0, needCopyProps_1 = needCopyProps; _i < needCopyProps_1.length; _i++) {
+    var prop = needCopyProps_1[_i];
+    var value = context.data[prop];
+    value != null && (data[prop] = value);
+  }
+
+  var directive = {
+    name: PrettyScrollDirective.name,
+    value: props
+  };
+  data.directives = [directive];
+  return data;
+}
+
 function install(Vue, options) {
   if (options === void 0) {
     options = {};
   }
 
-  var _a = options.name,
-      name = _a === void 0 ? "pretty-scroll" : _a,
-      config = __rest(options, ["name"]);
+  var directiveName = options.directiveName,
+      componentName = options.componentName,
+      config = __rest(options, ["directiveName", "componentName"]);
 
   PrettyScroll.setDefaultConfig(config);
-  Vue.directive(name, PrettyScrollDirective);
+
+  if (directiveName != null && directiveName !== "") {
+    PrettyScrollDirective.name = name;
+  } else {
+    directiveName = PrettyScrollDirective.name;
+  }
+
+  if (componentName != null && componentName !== "") {
+    PrettyScrollContainer.name = name;
+  } else {
+    componentName = PrettyScrollContainer.name;
+  }
+
+  Vue.directive(directiveName, PrettyScrollDirective);
+  Vue.component(componentName, PrettyScrollContainer);
 }
 
 var index = {

@@ -1,0 +1,32 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#app {
+    position: relative;
+    display: flex;
+    width: 100vw;
+    padding-top: 100px;
+}
+
+.wrapper {
+    flex: 1;
+    position: relative;
+    height: 300px;
+    margin: 100px auto 0;
+    border: 1px solid blue;
+    overflow: hidden;
+}
+
+.container > p {
+    padding: 10px;
+    margin: 0;
+    border: 1px solid gray;
+}
+
+button {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+}

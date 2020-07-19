@@ -83,10 +83,12 @@ export class PrettyScroll {
     }
 
     private getContainer(selector: string = this.selector) {
-        if (selector != null) {
-            return this.root.querySelector(selector) as HTMLElement;
-        } else {
+        if (selector == null) {
             return this.root;
+        } else if (selector === "parent") {
+            return this.root.parentElement;
+        } else {
+            return this.root.querySelector(selector) as HTMLElement;
         }
     }
 

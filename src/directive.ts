@@ -1,5 +1,4 @@
 import { VNodeDirective } from "vue/types/vnode";
-import { DirectiveOptions } from "vue/types/options";
 import { PrettyScroll } from "./pretty-scroll";
 import { looseEqual } from "./tools";
 
@@ -7,7 +6,8 @@ interface PrettyScrollHTMLElement extends HTMLElement {
     __scroll: PrettyScroll;
 }
 
-export const PrettyScrollDirective: DirectiveOptions = {
+export const PrettyScrollDirective = {
+    name: "pretty-scroll",
     inserted(el: PrettyScrollHTMLElement, binding: VNodeDirective) {
         const { selector, ...config } = binding.value || {};
         const scroll = (el.__scroll = new PrettyScroll(el, config));

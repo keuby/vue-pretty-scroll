@@ -25,7 +25,49 @@ Npm:
 npm install vue-pretty-scroll
 ```
 
-### 使用方式
+然后在 Vue 中注册该插件
+
+```ts
+import Vue from "vue";
+import PrettyScroll from "vue-pretty-scroll";
+
+Vue.use(PrettyScroll, {
+    // 支持鼠标滚轮，手机端不需要该配置
+    mouseWheel: {
+        speed: 20,
+        invert: false,
+        easeTime: 300,
+    },
+    // 显示滚动条，手机端可不需要该该配置
+    scrollbar: {
+        fade: false,
+        interactive: true,
+    },
+    ... // 其他配置项
+});
+```
+
+## 使用方式
+
+### 容器样式
+
+滚动内容必须放置在一个容器下，该容器至少需要如下三个要素
+
+1. 确保 wrapper 至少某一个方向上大小固定
+2. overflow 为 hidden
+3. position 为 relative 或者 absolute
+
+```html
+<style>
+    .wrapper {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+    }
+</style>
+```
+
+### directive
 
 ```html
 <templete>
@@ -55,54 +97,101 @@ npm install vue-pretty-scroll
 </templete>
 ```
 
-若需要在 wrapper 内部某个元素中应用 better-scroll，可以传入 selector 参数，例如滚动区域封装在某个组件内部
+若需要在 wrapper 内部某个元素中应用 better-scroll，可以传入 selector 参数，
+例如在使用第三方组件库时，滚动区域封装在某个组件内部
 
 ```html
 <templete>
-    <div class="wrapper" v-pretty-scroll="{ selector: '.container' }">
-        <!-- component 内部有一个 .container 的元素 -->
-        <MyComponent>
+    <div class="app">
+        <!-- Card 组件 内部有一个 .card-body 的元素 -->
+        <Card v-pretty-scroll="{ selector: '.card-body' }">
             <p>内容内容内容内容内容</p>
             <p>内容内容内容内容内容</p>
             <p>内容内容内容内容内容</p>
             。。。
-        </MyComponent>
+        </Card>
     </div>
 </templete>
 ```
 
-### 在手机端使用
+### component
 
-better-scroll 默认监听了 `touch` 事件，所以在手机端直接注册插件可直接使用：
+> component 使用的函数式组件，并且使用了 props 的隐式解析，所以 vue 版本必须大于 2.3.0
 
-```ts
-import Vue from "vue";
-import PrettyScroll from "vue-pretty-scroll";
-
-Vue.use(PrettyScroll, {
-    ... // 默认 better-scroll 创建时的默认配置
-});
+```html
+<div class="wrapper">
+    <pretty-scroll id="aaa" class-name="container">
+        <p>使用 component 不带 wrapper</p>
+        <p>测试测试测试测试测试测试测试测试</p>
+        <p>测试测试测试测试测试测试测试测试</p>
+        // ....
+    </pretty-scroll>
+</div>
 ```
 
-### 在 PC 端使用
+上述方法中，pretty-scroll 必须显式放置在一个的容器中，[容器样式参考](#容器样式)，
+也可以使用 has-wrapper 属性使组件自己生成一个 wrapper
 
-better-scroll 不会显示滚动条，也不会监听滚轮事件，所以需要安装额外的插件来使用
-
-注册插件时需要有额外的配置
-
-```ts
-import Vue from "vue";
-
-Vue.use(PrettyScroll, {
-    mouseWheel: {
-        speed: 20,
-        invert: false,
-        easeTime: 300,
-    },
-    scrollbar: {
-        fade: false,
-        interactive: true,
-    },
-    ... // 其他配置项
-});
+```html
+<pretty-scroll id="aaa" class="wrapper" class-name="container" has-wrapper>
+    <p>使用 component 不带 wrapper</p>
+    <p>测试测试测试测试测试测试测试测试</p>
+    <p>测试测试测试测试测试测试测试测试</p>
+    // ....
+</pretty-scroll>
 ```
+
+使用 component 时，所有的 prop 会自动解析为 better-scroll 的配置参数
+
+```html
+<pretty-scroll
+    id="aaa"
+    class="wrapper"
+    class-name="container"
+    :free-scroll="true"
+    :disable-mouse="false"
+    :disable-touch="false"
+    has-wrapper
+>
+    <p>使用 component 不带 wrapper</p>
+    <p>测试测试测试测试测试测试测试测试</p>
+    <p>测试测试测试测试测试测试测试测试</p>
+    // ....
+</pretty-scroll>
+```
+
+## 使用 better-scroll 插件
+
+vue-pretty-scroll 基于 better-scroll 封装，支持 better-scroll 所有插件功能
+
+> 下面以 [zoom](https://better-scroll.github.io/docs/zh-CN/plugins/zoom.html) 插件为例子
+
+安装方式:
+
+1. 安装 [better-scroll 插件](https://better-scroll.github.io/docs/zh-CN/plugins/)
+
+    ```bash
+    npm install @better-scroll/zoom@next --save
+    # or
+    yarn add @better-scroll/zoom@next
+    ```
+
+1. 使用
+
+    ```ts
+    import Vue from "vue";
+    import BScroll from '@better-scroll/core'
+    import Zoom from '@better-scroll/zoom'
+    import PrettyScroll from "vue-pretty-scroll";
+
+    BScroll.use(Zoom)
+
+    Vue.use(PrettyScroll, {
+        zoom: {
+            start: 1,
+            min: 0.5,
+            max: 2
+        }
+        ... // 其他配置项
+    });
+    ```

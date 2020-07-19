@@ -2,6 +2,10 @@ export function isObject(obj: any): boolean {
     return obj !== null && typeof obj === "object";
 }
 
+export function isString(obj: any): boolean {
+    return obj !== null && (typeof obj === "string" || obj instanceof String);
+}
+
 export function looseEqual(a: any, b: any): boolean {
     if (a === b) return true;
     const isObjectA = isObject(a);
@@ -53,11 +57,11 @@ export function override(target: Object, source: Object) {
 
 export function debounce(callback: Function, time: number = 300) {
     let lastestValue: any;
-    let timer: number;
+    let timer: any;
     return (value: any) => {
         lastestValue = value;
         if (timer != null) {
-            clearTimeout(this.lastestTimer);
+            clearTimeout(timer);
             timer = null;
         }
         timer = setTimeout(() => {

@@ -43,8 +43,6 @@ export class WindowResizeObserver implements Observer {
     private root: HTMLElement | Window;
     private event = "resize";
     private debounceTime = 300;
-    private lastestTimer: number;
-    private lastestEvent: Event;
 
     constructor(root?: HTMLElement) {
         this.root = root || window;
