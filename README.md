@@ -1,6 +1,6 @@
 # Vue Pretty Scroll
 
-Vue 滚动条指令插件，基于 [better-scroll](https://better-scroll.github.io/docs/zh-CN/)。
+Vue 滚动条插件，基于 [better-scroll](https://better-scroll.github.io/docs/zh-CN/)。
 
 ## 概述
 
@@ -120,7 +120,7 @@ Vue.use(PrettyScroll, {
 
 ```html
 <div class="wrapper">
-    <pretty-scroll id="aaa" class-name="container">
+    <pretty-scroll class-name="container">
         <p>使用 component 不带 wrapper</p>
         <p>测试测试测试测试测试测试测试测试</p>
         <p>测试测试测试测试测试测试测试测试</p>
@@ -133,7 +133,7 @@ Vue.use(PrettyScroll, {
 也可以使用 has-wrapper 属性使组件自己生成一个 wrapper
 
 ```html
-<pretty-scroll id="aaa" class="wrapper" class-name="container" has-wrapper>
+<pretty-scroll class="wrapper" class-name="container" has-wrapper>
     <p>使用 component 不带 wrapper</p>
     <p>测试测试测试测试测试测试测试测试</p>
     <p>测试测试测试测试测试测试测试测试</p>
@@ -145,7 +145,6 @@ Vue.use(PrettyScroll, {
 
 ```html
 <pretty-scroll
-    id="aaa"
     class="wrapper"
     class-name="container"
     :free-scroll="true"
