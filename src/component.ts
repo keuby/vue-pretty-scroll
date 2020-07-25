@@ -1,14 +1,11 @@
-import { RenderContext } from "vue/types/options";
-import { CreateElement } from "vue/types/vue";
 import { PrettyScrollDirective } from "./directive";
-import { VNodeData } from "vue/types/vnode";
 
 const needCopyProps = ["staticClass", "staticStyle", "class", "style", "attrs"];
 
 export const PrettyScrollContainer = {
     name: "PrettyScroll",
     functional: true,
-    render(createElement: CreateElement, context: RenderContext) {
+    render(createElement: Function, context: any) {
         const { className, hasWrapper } = context.props;
 
         const nodeData = buildVNodeData(context);
@@ -40,7 +37,7 @@ export const PrettyScrollContainer = {
     },
 };
 
-function buildVNodeData(context: RenderContext) {
+function buildVNodeData(context: any) {
     const { hasWrapper = false, ...props } = context.props;
 
     for (const prop in props) {
@@ -49,7 +46,7 @@ function buildVNodeData(context: RenderContext) {
         }
     }
 
-    const data: VNodeData = {};
+    const data: any = {};
     for (const prop of needCopyProps) {
         const value = context.data[prop];
         value != null && (data[prop] = value);

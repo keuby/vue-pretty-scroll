@@ -1,6 +1,6 @@
 /**
- * vue-pretty-scroll v1.0.0
- * release at 2020-7-19
+ * vue-pretty-scroll v1.1.1
+ * release at 2020-7-25
  * by Knight Chen
  * github https://github.com/keuby/vue-pretty-scroll#readme
  */
@@ -306,10 +306,12 @@ var PrettyScrollContainer = {
   name: "PrettyScroll",
   functional: true,
   render: function render(createElement, context) {
-    var className = context.props.className;
+    var _a = context.props,
+        className = _a.className,
+        hasWrapper = _a.hasWrapper;
     var nodeData = buildVNodeData(context);
 
-    if (className) {
+    if (hasWrapper != null && hasWrapper !== false) {
       var style = nodeData.style || (nodeData.style = {});
       style.position = "relative";
       style.overflow = "hidden";
@@ -318,6 +320,15 @@ var PrettyScrollContainer = {
       }, context.children)]);
     } else {
       nodeData.directives[0].value.selector = "parent";
+
+      if (className) {
+        if (nodeData.staticClass) {
+          nodeData.staticClass += " " + className;
+        } else {
+          nodeData.staticClass = className;
+        }
+      }
+
       return createElement("div", nodeData, context.children);
     }
   }

@@ -2,6 +2,8 @@
 
 Vue 滚动条插件，基于 [better-scroll](https://better-scroll.github.io/docs/zh-CN/)。
 
+> 如果觉得好用，请 Star 一下谢谢。
+
 ## 概述
 
 在浏览器环境中，直接使用 overflow 属性添加滚动条，在不同操作系统，不同浏览器中，其表现可能都不一样，

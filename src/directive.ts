@@ -1,4 +1,3 @@
-import { VNodeDirective } from "vue/types/vnode";
 import { PrettyScroll } from "./pretty-scroll";
 import { looseEqual } from "./tools";
 
@@ -8,12 +7,12 @@ interface PrettyScrollHTMLElement extends HTMLElement {
 
 export const PrettyScrollDirective = {
     name: "pretty-scroll",
-    inserted(el: PrettyScrollHTMLElement, binding: VNodeDirective) {
+    inserted(el: PrettyScrollHTMLElement, binding: any) {
         const { selector, ...config } = binding.value || {};
         const scroll = (el.__scroll = new PrettyScroll(el, config));
         scroll.start(selector);
     },
-    update(el: PrettyScrollHTMLElement, binding: VNodeDirective) {
+    update(el: PrettyScrollHTMLElement, binding: any) {
         const selector = binding.value;
         const oldSelctor = binding.oldValue;
         if (!looseEqual(selector, oldSelctor)) {
@@ -25,7 +24,7 @@ export const PrettyScrollDirective = {
     componentUpdated(el: PrettyScrollHTMLElement) {
         el.__scroll && el.__scroll.update();
     },
-    unbind(el: PrettyScrollHTMLElement, binding: VNodeDirective) {
+    unbind(el: PrettyScrollHTMLElement, binding: any) {
         const scroll = el.__scroll;
         scroll && scroll.stop();
         el.__scroll = null;

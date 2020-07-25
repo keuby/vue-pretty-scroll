@@ -22,6 +22,7 @@ const outputs = {
     esm: {
         file: pkg.module,
         format: "esm",
+        name: "PrettyScroll",
     },
 };
 
@@ -44,4 +45,10 @@ export default {
     input: "src/index.ts",
     output: outputs[format],
     plugins,
+    external: [
+        "moment",
+        "@better-scroll/core",
+        "@better-scroll/scroll-bar",
+        "@better-scroll/mouse-wheel",
+    ],
 };

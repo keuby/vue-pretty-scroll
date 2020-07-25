@@ -1,13 +1,9 @@
-import { VueConstructor } from "vue/types/vue";
 import { PrettyScrollDirective } from "./directive";
 import { PrettyScrollOptions } from "./types";
 import { PrettyScroll } from "./pretty-scroll";
 import { PrettyScrollContainer } from "./component";
 
-function install(
-    Vue: VueConstructor,
-    options: Partial<PrettyScrollOptions> = {}
-) {
+function install(Vue: any, options: Partial<PrettyScrollOptions> = {}) {
     let { directiveName, componentName, ...config } = options;
     PrettyScroll.setDefaultConfig(config);
 

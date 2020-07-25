@@ -4,7 +4,6 @@ import MouseWheel from "@better-scroll/mouse-wheel";
 
 import { WindowResizeObserver } from "./observer";
 import { Unsubscribable } from "./types";
-import { Options } from "@better-scroll/core/src/Options";
 import { override } from "./tools";
 
 BScroll.use(ScrollBar);
@@ -29,9 +28,9 @@ export class PrettyScroll {
 
     private subscription: Unsubscribable;
 
-    private config: Partial<Options> = {};
+    private config: Partial<any> = {};
 
-    constructor(root: HTMLElement | string, config: Partial<Options> = {}) {
+    constructor(root: HTMLElement | string, config: Partial<any> = {}) {
         if (root instanceof HTMLElement) {
             this.root = root;
         } else {
