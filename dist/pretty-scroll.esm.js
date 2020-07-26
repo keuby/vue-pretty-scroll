@@ -1,6 +1,6 @@
 /**
- * vue-pretty-scroll v1.1.1
- * release at 2020-7-25
+ * vue-pretty-scroll v1.1.2
+ * release at 2020-7-27
  * by Knight Chen
  * github https://github.com/keuby/vue-pretty-scroll#readme
  */
@@ -47,24 +47,8 @@ function __rest(s, e) {
     return t;
 }
 
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
 function isObject(obj) {
-  return obj !== null && _typeof(obj) === "object";
+  return obj !== null && typeof obj === "object";
 }
 function looseEqual(a, b) {
   if (a === b) return true;
@@ -200,7 +184,7 @@ function () {
     if (this.started) this.stop();
     this.container = this.getContainer(selector);
 
-    if (this.container != null) {
+    if (this.container != null && this.container.children.length > 0) {
       var config = __assign(__assign({}, PrettyScroll.defaultConfig), this.config);
 
       this.scroll = new BScroll(this.container, config);
@@ -242,7 +226,7 @@ function () {
 
     if (selector == null) {
       return this.root;
-    } else if (selector === "parent") {
+    } else if (selector === 'parent') {
       return this.root.parentElement;
     } else {
       return this.root.querySelector(selector);
@@ -267,17 +251,21 @@ function () {
   return PrettyScroll;
 }();
 
-var PrettyScrollDirective = {
-  name: "pretty-scroll",
-  inserted: function inserted(el, binding) {
+var PrettyScrollDirective =
+/** @class */
+function () {
+  function PrettyScrollDirective() {}
+
+  PrettyScrollDirective.prototype.inserted = function (el, binding) {
     var _a = binding.value || {},
         selector = _a.selector,
         config = __rest(_a, ["selector"]);
 
     var scroll = el.__scroll = new PrettyScroll(el, config);
     scroll.start(selector);
-  },
-  update: function update(el, binding) {
+  };
+
+  PrettyScrollDirective.prototype.update = function (el, binding) {
     var selector = binding.value;
     var oldSelctor = binding.oldValue;
 
@@ -290,22 +278,27 @@ var PrettyScrollDirective = {
 
       el.__scroll.start(selector_1);
     }
-  },
-  componentUpdated: function componentUpdated(el) {
+  };
+
+  PrettyScrollDirective.prototype.componentUpdated = function (el) {
     el.__scroll && el.__scroll.update();
-  },
-  unbind: function unbind(el, binding) {
+  };
+
+  PrettyScrollDirective.prototype.unbind = function (el, binding) {
     var scroll = el.__scroll;
     scroll && scroll.stop();
     el.__scroll = null;
-  }
-};
+  };
 
-var needCopyProps = ["staticClass", "staticStyle", "class", "style", "attrs"];
+  PrettyScrollDirective.directiveName = 'pretty-scroll';
+  return PrettyScrollDirective;
+}();
+
+var needCopyProps = ['staticClass', 'staticStyle', 'class', 'style', 'attrs'];
 var PrettyScrollContainer = {
-  name: "PrettyScroll",
+  name: 'PrettyScroll',
   functional: true,
-  render: function render(createElement, context) {
+  render: function (createElement, context) {
     var _a = context.props,
         className = _a.className,
         hasWrapper = _a.hasWrapper;
@@ -313,23 +306,23 @@ var PrettyScrollContainer = {
 
     if (hasWrapper != null && hasWrapper !== false) {
       var style = nodeData.style || (nodeData.style = {});
-      style.position = "relative";
-      style.overflow = "hidden";
-      return createElement("div", nodeData, [createElement("div", {
+      style.position = 'relative';
+      style.overflow = 'hidden';
+      return createElement('div', nodeData, [createElement('div', {
         staticClass: className
       }, context.children)]);
     } else {
-      nodeData.directives[0].value.selector = "parent";
+      nodeData.directives[0].value.selector = 'parent';
 
       if (className) {
         if (nodeData.staticClass) {
-          nodeData.staticClass += " " + className;
+          nodeData.staticClass += ' ' + className;
         } else {
           nodeData.staticClass = className;
         }
       }
 
-      return createElement("div", nodeData, context.children);
+      return createElement('div', nodeData, context.children);
     }
   }
 };
@@ -340,7 +333,7 @@ function buildVNodeData(context) {
       props = __rest(_a, ["hasWrapper"]);
 
   for (var prop in props) {
-    if (props[prop] === "") {
+    if (props[prop] === '') {
       props[prop] = true;
     }
   }
@@ -354,7 +347,7 @@ function buildVNodeData(context) {
   }
 
   var directive = {
-    name: PrettyScrollDirective.name,
+    name: PrettyScrollDirective.directiveName,
     value: props
   };
   data.directives = [directive];
@@ -372,13 +365,13 @@ function install(Vue, options) {
 
   PrettyScroll.setDefaultConfig(config);
 
-  if (directiveName != null && directiveName !== "") {
-    PrettyScrollDirective.name = name;
+  if (directiveName != null && directiveName !== '') {
+    PrettyScrollDirective.directiveName = name;
   } else {
-    directiveName = PrettyScrollDirective.name;
+    directiveName = PrettyScrollDirective.directiveName;
   }
 
-  if (componentName != null && componentName !== "") {
+  if (componentName != null && componentName !== '') {
     PrettyScrollContainer.name = name;
   } else {
     componentName = PrettyScrollContainer.name;
